@@ -10,7 +10,58 @@ employeeMaster = APIRouter(prefix="/employee", tags=["Employee"])
 @employeeMaster.get("/get-employees")
 async def get_employees(request: Request):
     db = get_database(2)
-    docs = db.EmployeeMaster.find()
+    docs = db.EmployeeMaster.aggregate([
+        # stage 1: only fetch active employees
+        {
+            "$match": {"isActive": True}
+        },
+        {
+            "$addFields": 
+            {
+                "roleIDObj": {"$toObjectId": "$roleID"}
+            }
+        },
+        {
+            "$lookup":
+            {
+                "from": "DepartmentMaster",
+                "localField": "departmentCode",
+                "foreignField": "departmentCode",
+                "as": "departmentDetails"
+            }
+        },
+        {
+            "$lookup":
+            {
+                "from": "RoleMaster",
+                "localField": "roleIDObj",
+                "foreignField": "_id",
+                "as": "roleDetails"
+            }
+        },
+        {
+            "$addFields": 
+            {
+                "departmentName": {"$arrayElemAt": ["$departmentDetails.departmentName", 0]},
+                "roleName": {"$arrayElemAt": ["$roleDetails.roleName", 0]}
+            }
+        },
+        {
+            "$project": 
+            {
+                "_id": 1,
+                "firstName": 1,
+                "lastName": 1,
+                "dob": 1,
+                "departmentCode": 1,
+                "departmentName": 1,
+                "roleID": 1,
+                "roleName": 1,
+                "designationCode": 1,
+                "address": 1,
+            }
+        }
+    ])
     employees = EmployeeListEntity(docs)
     
     return custom_Get_response(True, 200, "Data Retrieved Successfully.", employees)

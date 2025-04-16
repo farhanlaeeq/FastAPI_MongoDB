@@ -6,5 +6,6 @@ class EmployeeMaster (BaseModel):
     dob: str
     departmentCode: str
     designationCode: str
+    roleID: str
     address: str
     isActive: bool

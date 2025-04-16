@@ -5,9 +5,12 @@ def EmployeeEntity(item) -> dict:
         "lastName": item["lastName"],
         "dob": item["dob"],
         "departmentCode": item["departmentCode"],
+        "departmentName": item["departmentName"],
         "designationCode": item["designationCode"],
+        "roleID": item["roleID"],
+        "roleName": item["roleName"],
         "address": item["address"],
-        "isActive": item["isActive"],
+        # "isActive": item["isActive"],
     }
     
 def EmployeeListEntity(items) -> list:
