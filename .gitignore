@@ -1,0 +1,41 @@
+# Ignore __pycache__ folders recursively
+**/__pycache__/
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*.so
+
+# Environment folders
+venv/
+env/
+ENV/
+.venv/
+.python-version
+
+# IDE and editor folders
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Pytest cache
+.pytest_cache/
+
+# Logs
+*.log
+
+# Database dumps
+*.sqlite3
+*.db
+
+# Python egg info
+*.egg-info/
+dist/
+build/
+
+# Ignore .env files
+.env
